@@ -33,6 +33,8 @@ namespace Final_Project.Controllers
         {
             var doctor = userRepositry.GetByIDstring(id);
             ViewBag.specialDoctor=db.DoctroSpecialists.FirstOrDefault(d=>d.DoctorId==doctor.Id).SpecialName;
+            ViewBag.DoctorPhones=db.PhoneUsers.FirstOrDefault(d=>d.UserId== doctor.Id).PhoneNumber;
+
             return View(doctor);
         }
     }

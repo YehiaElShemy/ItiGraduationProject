@@ -33,7 +33,7 @@ namespace Final_Project.Controllers
                 {
                     Id= doc.Id,
                     UserName = doc.UserName,
-                    //PhoneNumber = doc.PhoneNumber,
+                    PhoneNumbers = db.PhoneUsers.Where(d => d.UserId == doc.Id).Select(d => d.PhoneNumber).ToList(),
                     Email = doc.Email,
                     SpecialistDoctors = db.DoctroSpecialists.Where(d => d.DoctorId == doc.Id).Select(d=>d.SpecialName).ToList(),
                     Gender = doc.Gender,

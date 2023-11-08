@@ -78,7 +78,6 @@ namespace Final_Project.Controllers
                 {
                     UserName = NewUser.UserName,
                     Email = NewUser.Email,
-                 
                     Age=NewUser.Age,
                     Gender = NewUser.Gender,
                     Country = NewUser.Country,
@@ -86,7 +85,7 @@ namespace Final_Project.Controllers
                     Region= NewUser.Region,
                     Doctor_State = NewUser.Doctor_State,
                     ImageName=imageName,
-                  //  ClinicId=NewUser.ClinicId,
+                    ClinicId=NewUser.ClinicId,
                 };
                 // Create the new User record
                 IdentityResult result = await userManager.CreateAsync(user, NewUser.Password);

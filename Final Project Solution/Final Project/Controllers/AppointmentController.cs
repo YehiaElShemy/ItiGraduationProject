@@ -27,10 +27,10 @@ namespace Final_Project.Controllers
             
             ApplicationUser Doctor = await userManager.FindByIdAsync(Id);
             ApplicationUser Patient = await userManager.FindByEmailAsync(newAppoint.Email);
-            var clinic=db.Clinics.Find(Doctor.Id);
+            var clinic=db.Clinics.Find(Doctor.ClinicId);
             if (Patient == null || Doctor==null || clinic==null)
             {
-                return View("Detailes", "Doctor");
+                return View("Index", "Home");
             }
             Appointment appointment = new Appointment()
             {

@@ -40,7 +40,6 @@ namespace Final_Project.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoctorId")
@@ -55,7 +54,7 @@ namespace Final_Project.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("TimeReserved")
+                    b.Property<DateTime?>("TimeReserved")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -226,21 +225,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "82ba869f-5630-4744-882f-c0ec9fc531ba",
+                            ConcurrencyStamp = "934c7b16-c2db-40ba-8a45-b7465a271e95",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "6969f6b0-312c-42fd-90b0-65448fb079b5",
+                            ConcurrencyStamp = "d046cbe6-67ae-4675-875b-1f08ad7c1046",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "ccf33428-aee0-4335-8475-8e86f8f3d528",
+                            ConcurrencyStamp = "01f0192b-9f6e-48d6-8d65-c6a9584842cc",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -550,7 +549,7 @@ namespace Final_Project.Migrations
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Phones")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -634,6 +633,11 @@ namespace Final_Project.Migrations
                     b.Navigation("Clinic_Patients");
 
                     b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
+                {
+                    b.Navigation("Phones");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor", b =>

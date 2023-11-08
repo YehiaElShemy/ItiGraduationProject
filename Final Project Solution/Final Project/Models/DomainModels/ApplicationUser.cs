@@ -17,6 +17,7 @@ namespace Final_Project.Models.DomainModels
         [ForeignKey(nameof(Clinic))]
         public string? ClinicId { get; set; }
         public Clinic? Clinic { get; set; }
+        public List<PhoneUser> Phones { get; set; }
 
 
     }

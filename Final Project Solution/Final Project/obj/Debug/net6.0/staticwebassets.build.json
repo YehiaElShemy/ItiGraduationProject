@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ZnquWfWp8BvqMPf7TWBkzt6+fgj2WwAXRtmMIZhve4A=",
+  "Hash": "ClXlEI4SdLXyzLoes21C1nzhU2B4oj0FWiNqT+Ry5Bw=",
   "Source": "Final Project",
   "BasePath": "_content/Final Project",
   "Mode": "Default",
@@ -4639,6 +4639,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\th (2).jfif"
+    },
+    {
+      "Identity": "D:\\VisualApps\\Iti\\ItiGraduationProject\\Final Project Solution\\Final Project\\wwwroot\\Images\\th (3).jfif",
+      "SourceId": "Final Project",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\VisualApps\\Iti\\ItiGraduationProject\\Final Project Solution\\Final Project\\wwwroot\\",
+      "BasePath": "_content/Final Project",
+      "RelativePath": "Images/th (3).jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\th (3).jfif"
     },
     {
       "Identity": "D:\\VisualApps\\Iti\\ItiGraduationProject\\Final Project Solution\\Final Project\\wwwroot\\Images\\th.jfif",

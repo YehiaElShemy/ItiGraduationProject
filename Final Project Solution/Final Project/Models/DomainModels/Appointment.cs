@@ -13,10 +13,10 @@ namespace Final_Project.Models.DomainModels
         //public DateTime? EndDate { get; set; }
         public DateTime? DateReserved { get; set; }
         [DataType(DataType.Time)]
-        public DateTime TimeReserved { get; set; }
+        public DateTime? TimeReserved { get; set; }
         //public string? AppointPrice { get; set; }
         public string? AppointState { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [ForeignKey(nameof(Patient))]
         public string? PatientId { get; set; }
         public Patient? Patient  { get; set; }
