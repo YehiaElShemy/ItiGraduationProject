@@ -1,8 +1,9 @@
 ﻿@using Final_Project.Models.DomainModels;
+@using Final_Project.Repositary;
 @using Microsoft.AspNetCore.Identity;
 @model IEnumerable<Final_Project.Models.DomainModels.Clinic>
 @inject UserManager<ApplicationUser> usermanger
-
+@inject Repository<Clinic> ClinicDoctors;
 @{
     ViewData["Title"] = "Index";
 }
@@ -12,11 +13,10 @@
 <!-- Bootstrap Icons CSS Link (optional, for Bootstrap 4.5.2 and above) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="form-group col-5 m-auto mt-2">
+    <a asp-action="Create" class="btn btn-primary w-100 py-3">Create New</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -66,10 +66,15 @@
                     <select name="Id" id="Id" class="form-control">
                         @* <option value="">Select To Filter</option> *@
 
-                        @foreach (var items in item.Appointments)
+                        @if (item.Appointments!=null)
                         {
-                            <option value="@items.Patient.UserName">@items.Patient.UserName</option>
+                            @foreach (var items in item.Appointments)
+                            {
+                                <option value="@items.Patient.UserName">@items.Patient.UserName</option>
+                            }
+                        
                         }
+
                         <option value="-1">All Appointments Patients</option>
                     </select>
 
@@ -79,13 +84,21 @@
                     <!-- Doctors-->
 
                     <select class="form-control">
-                        @foreach (var Doctor_Name in @ViewBag.DoctorNames)
-                        {
-
-                            <option value="Doctor_Name">@Doctor_Name</option>
-
-
+                        @{
+                            var Doctors = ClinicDoctors.GetDoctorsForAClinic(item.Id);
                         }
+                        @if (Doctors != null)
+                        {
+                            @foreach (var Doctor_Name in Doctors)
+                            {
+
+                                <option value="Doctor_Name">@Doctor_Name</option>
+
+
+                            }
+                        
+                        }
+                        <option value="-1">All Doctors</option>
                     </select>
 
 
