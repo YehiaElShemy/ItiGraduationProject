@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
+using System.Collections;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Final_Project.Controllers
@@ -37,11 +39,8 @@ namespace Final_Project.Controllers
             ////////////////////
 
             //var AllDoctortoClinic=db.Doctors.Where(d=>d.ClinicId== "8093f94c-331f-439e-84b0-adac6d760dcc").ToList();
-            var AllDoctortoClinic = db.Users.ToList();
-            //IEnumerable<ApplicationUser> applicationUsers = AllDoctortoClinic
-            //  .Cast<ApplicationUser>()
-            // .Where(d => d.ClinicId == "8093f94c-331f-439e-84b0-adac6d760dcc")
-            //     .ToList();
+            
+
 
 
 
@@ -106,7 +105,7 @@ namespace Final_Project.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string id)
         {
             return View(repostory.GetByID(id));
         }
@@ -114,7 +113,7 @@ namespace Final_Project.Controllers
 
         [HttpPost]
         //[AutoValidateAntiforgeryToken]
-        public IActionResult Edit(int id, Clinic ClinicNew)
+        public IActionResult Edit(string id, Clinic ClinicNew)
         {
 
             Clinic ClinicEdited = repostory.GetByID(id);
@@ -140,7 +139,7 @@ namespace Final_Project.Controllers
             return View(repostory.GetByID(id));
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             repostory.Delete(id);
             repostory.Save();
@@ -149,7 +148,7 @@ namespace Final_Project.Controllers
         }
 
 
-        public IActionResult Details(int id)
+        public IActionResult Details(string id)
         {
             if (repostory.GetByID(id) == null)
             {
@@ -159,11 +158,8 @@ namespace Final_Project.Controllers
         }
 
 
-        //public GetRolesForUser() { 
 
 
-
-        //}
 
     }
 }
