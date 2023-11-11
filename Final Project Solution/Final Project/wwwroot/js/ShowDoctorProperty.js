@@ -20,16 +20,23 @@ $(document).ready(function () {
 
 
 
- 
-        $(".add_SpecialDoctor").on("click", function () {
-            var specialistDiv = '<div class="specialistDiv form-group"><input type="text" name="SpecialistDoctors" placeholder="specialist"/><button type="button" class="remove_specialdoctor">Remove</button></div>';
-            $("#add_SpecialDoctorContainer").append(specialistDiv);
-        });
 
-        // Allow removing specialist doctor fields
-        $("#add_SpecialDoctorContainer").on("click", ".remove_specialdoctor", function () {
-            $(this).parent().remove();
-        });
+    $(".add_SpecialDoctor").on("click", function () {
+        var specialistDiv = '<div class="specialistDiv form-group"><input type="text" name="SpecialistDoctors" placeholder="specialist"/><button type="button" class="remove_specialdoctor">Remove</button></div>';
+        $("#add_SpecialDoctorContainer").append(specialistDiv);
+    });
+
+    // Allow removing specialist doctor fields
+    $("#add_SpecialDoctorContainer").on("click", ".remove_specialdoctor", function () {
+        $(this).parent().remove();
+    });
+
+
+
+
+    $("#MakeAppoint").on("click", function () {
+        $(".showAppointment").show();
+    });
 
 });
 
