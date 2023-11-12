@@ -152,7 +152,7 @@ namespace Final_Project.Controllers
 
         private List<SelectListItem> GetAllRoles() //method return All Roles 
         {
-            var AllRoles = roleManager.Roles.Select(r => new SelectListItem
+            var AllRoles = roleManager.Roles.Where(d=>d.Name!="Admin").OrderByDescending(d=>d.Name).Select(r => new SelectListItem
             {
                 Value = r.Name,
                 Text = r.Name

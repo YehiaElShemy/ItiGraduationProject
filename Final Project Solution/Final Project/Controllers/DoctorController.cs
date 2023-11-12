@@ -31,9 +31,11 @@ namespace Final_Project.Controllers
         {
             return View();
         }
-        public IActionResult Detailes(string id)
+        public async Task<IActionResult> Detailes(string id)
         {
-            var doctor = userRepositry.GetByIDstring(id);
+            var users = await userManager.GetUsersInRoleAsync("Doctor");
+            var doctor = users.Where(d => d.Id == id).FirstOrDefault();
+
             ViewBag.specialDoctor = db.DoctroSpecialists.FirstOrDefault(d => d.DoctorId == doctor.Id).SpecialName;
             ViewBag.DoctorPhones = db.PhoneUsers.FirstOrDefault(d => d.UserId == doctor.Id).PhoneNumber;
 
