@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Final_Project.Models.DataContext
 {
-    public class DataContext : IdentityDbContext
+    public class DataContext : IdentityDbContext<ApplicationUser>
     {
         public DataContext() : base()
         {
