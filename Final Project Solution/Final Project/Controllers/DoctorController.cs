@@ -2,10 +2,13 @@
 using Final_Project.Models.DomainModels;
 using Final_Project.Repositary;
 using Final_Project.ViewModel;
+using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
+using static Azure.Core.HttpHeader;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Final_Project.Controllers
 {
@@ -36,11 +39,12 @@ namespace Final_Project.Controllers
             var users = await userManager.GetUsersInRoleAsync("Doctor");
             var doctor = users.Where(d => d.Id == id).FirstOrDefault();
 
-            ViewBag.specialDoctor = db.DoctroSpecialists.FirstOrDefault(d => d.DoctorId == doctor.Id).SpecialName;
+            ViewBag.specialDoctor = db.DoctorSpecialists.FirstOrDefault(d => d.DoctorId == doctor.Id).SpecialName;
             ViewBag.DoctorPhones = db.PhoneUsers.FirstOrDefault(d => d.UserId == doctor.Id).PhoneNumber;
 
             return View(doctor);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> searchDoctor()
@@ -55,7 +59,7 @@ namespace Final_Project.Controllers
                     UserName = doc.UserName,
                     //PhoneNumber = doc.PhoneNumber,
                     Email = doc.Email,
-                    SpecialistDoctors = db.DoctroSpecialists.Where(d => d.DoctorId == doc.Id).Select(d => d.SpecialName).ToList(),
+                    SpecialistDoctors = db.DoctorSpecialists.Where(d => d.DoctorId == doc.Id).Select(d => d.SpecialName).ToList(),
                     Gender = doc.Gender,
                     Age = doc.Age,
                     City = doc.City,
@@ -71,46 +75,62 @@ namespace Final_Project.Controllers
         }
 
         [HttpPost]
-        public IActionResult searchDoctor(string doctorName, string region, string specialname)
+        public IActionResult searchDoctor(string doctorName, string region, string specialName)
         {
-            var searchQuery = from d in db.ApplicationUsers
-                              join c in db.Clinics on d.ClinicId equals c.Id
-                              join s in db.DoctroSpecialists on d.Id equals s.DoctorId
-                              where d.ClinicId==c.Id && d.Id==s.DoctorId 
-                              select new { d, c, s };
-            var result = searchQuery.ToList();
-            if (!string.IsNullOrEmpty(doctorName) || !string.IsNullOrEmpty(region) ||
-                !string.IsNullOrEmpty(specialname))
+            // Start with a base query that includes the necessary navigation properties
+            var searchQuery = db.Users.Where(d=>d.DoctorSpecialists.Count()!=0).Include(d => d.DoctorSpecialists).Include(user => user.Clinic).ToList();
+
+            // Apply filters based on the provided parameters
+            if (!string.IsNullOrEmpty(doctorName))
             {
-                searchQuery = searchQuery.Where(a => a.d.UserName.Contains(doctorName) ||
-                a.c.City.Contains(region) || a.s.SpecialName.Contains(specialname));
-                result = searchQuery.ToList();
+                searchQuery = searchQuery.Where(u => u.UserName.Contains(doctorName)).ToList();
             }
+
+            if (!string.IsNullOrEmpty(region))
+            {
+                searchQuery = searchQuery.Where(u => u.Clinic.City.Contains(region)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(specialName))
+            {
+                searchQuery = searchQuery.Where(u => u.DoctorSpecialists.Any(ds => ds.SpecialName.Contains(specialName))).ToList();
+            }
+
+            // Execute the query and retrieve the results
+            var searchResults = searchQuery.ToList();
+
+            // You can now use the searchResults as needed, for example, pass it to a view
+
             List<UserRegisterVM> doctors = new List<UserRegisterVM>();
-            foreach (var doc in result)
+            foreach (var doc in searchResults)
             {
                 // var users = await userManager.GetUsersInRoleAsync("Doctor");
                 doctors.Add(new UserRegisterVM()
                 {
-                    Id = doc.d.Id,
-                    UserName = doc.d.UserName,
+                    Id = doc.Id,
+                    UserName = doc.UserName,
                     //PhoneNumber = doc.PhoneNumber,
-                    Email = doc.d.Email,
-                    SpecialistDoctors = db.DoctroSpecialists.Where(d => d.DoctorId == doc.d.Id).Select(d => d.SpecialName).ToList(),
-                    Gender = doc.d.Gender,
-                    Age = doc.d.Age,
-                    City = doc.d.City,
-                    Country = doc.d.Country,
-                    Region = doc.d.Region,
-                    Doctor_State = doc.d.Doctor_State,
-                    ImageName = doc.d.ImageName
+                    Email = doc.Email,
+                    SpecialistDoctors = db.DoctorSpecialists.Where(d => d.DoctorId == doc.Id).Select(d => d.SpecialName).ToList(),
+                    Gender = doc.Gender,
+                    Age = doc.Age,
+                    City = doc.City,
+                    Country = doc.Country,
+                    Region = doc.Region,
+                    Doctor_State = doc.Doctor_State,
+                    ImageName = doc.ImageName
                 });
 
             }
 
             return View("searchDoctor", doctors);
 
+
         }
+
+      
+
+
     }
 
 }

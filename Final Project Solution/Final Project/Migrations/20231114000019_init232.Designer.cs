@@ -4,6 +4,7 @@ using Final_Project.Models.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Final_Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231114000019_init232")]
+    partial class init232
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,12 +239,17 @@ namespace Final_Project.Migrations
                     b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("DoctorId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SpecialName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
+
+                    b.HasIndex("DoctorId1");
 
                     b.ToTable("DoctorSpecialists");
                 });
@@ -324,21 +332,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "2c77a7a4-c5d9-4b8c-8748-0a7611c6b117",
+                            ConcurrencyStamp = "e729e0f3-f78e-4040-bb4f-910e07965078",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "b2fc35d9-519d-4848-97a8-d1bcc7d917ae",
+                            ConcurrencyStamp = "aeaa09fd-d0c9-4e82-976b-4839ca4f79d2",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "7f07766f-40f0-4c90-99e9-492b4e940028",
+                            ConcurrencyStamp = "33c031e9-9348-4f35-9a90-d7d0f1691c6b",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -516,8 +524,12 @@ namespace Final_Project.Migrations
             modelBuilder.Entity("Final_Project.Models.DomainModels.DoctorSpecialist", b =>
                 {
                     b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Doctor")
-                        .WithMany("DoctorSpecialists")
+                        .WithMany("DoctroSpecialists")
                         .HasForeignKey("DoctorId");
+
+                    b.HasOne("Final_Project.Models.DomainModels.Doctor", null)
+                        .WithMany("SpecialDoctors")
+                        .HasForeignKey("DoctorId1");
 
                     b.Navigation("Doctor");
                 });
@@ -609,7 +621,7 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
                 {
-                    b.Navigation("DoctorSpecialists");
+                    b.Navigation("DoctroSpecialists");
 
                     b.Navigation("Phones");
                 });
@@ -630,6 +642,8 @@ namespace Final_Project.Migrations
                     b.Navigation("Doctor_Patients");
 
                     b.Navigation("PhoneDoctors");
+
+                    b.Navigation("SpecialDoctors");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Patient", b =>

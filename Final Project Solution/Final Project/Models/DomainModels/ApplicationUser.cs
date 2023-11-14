@@ -12,12 +12,13 @@ namespace Final_Project.Models.DomainModels
         public int? Age { get; set; }
         public string? Doctor_State { get; set; }
 
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
         ////public int? PhoneNumber { get; set; }
         [ForeignKey(nameof(Clinic))]
         public string? ClinicId { get; set; }
-        public Clinic? Clinic { get; set; }
-        public List<PhoneUser> Phones { get; set; }
+        public virtual Clinic? Clinic { get; set; }
+        public virtual List<DoctorSpecialist>? DoctorSpecialists { get; set; }
+        public List<PhoneUser>? Phones { get; set; }
 
 
     }

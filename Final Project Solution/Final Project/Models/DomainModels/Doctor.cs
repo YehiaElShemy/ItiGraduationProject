@@ -13,6 +13,6 @@ namespace Final_Project.Models.DomainModels
         public List<PhoneUser>? PhoneDoctors { get; set; }
         public List<Appointment>? Appointments { get; set; }
         public List<Doctor_patient>? Doctor_Patients { get; set; }
-        public List<DoctroSpecialist>? SpecialDoctors { get; set; }
+      
     }
 }

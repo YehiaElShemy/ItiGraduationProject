@@ -4,6 +4,7 @@ using Final_Project.Models.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Final_Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231113175819_init23")]
+    partial class init23
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,27 +228,6 @@ namespace Final_Project.Migrations
                     b.ToTable("Clinic_Patients");
                 });
 
-            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctorSpecialist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SpecialName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("DoctorSpecialists");
-                });
-
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
                 {
                     b.Property<string>("DoctorId")
@@ -265,6 +247,32 @@ namespace Final_Project.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Doctor_Patients");
+                });
+
+            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctroSpecialist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SpecialName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctroSpecialists");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.PhoneUser", b =>
@@ -324,21 +332,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "2c77a7a4-c5d9-4b8c-8748-0a7611c6b117",
+                            ConcurrencyStamp = "f7dee59e-27bd-496c-bacf-6e64a442b4d5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "b2fc35d9-519d-4848-97a8-d1bcc7d917ae",
+                            ConcurrencyStamp = "f7d7700b-6ed3-4e95-9a37-38283f227967",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "7f07766f-40f0-4c90-99e9-492b4e940028",
+                            ConcurrencyStamp = "3089a54f-bf25-42d4-a61d-e5787d0f2bc2",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -513,15 +521,6 @@ namespace Final_Project.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctorSpecialist", b =>
-                {
-                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Doctor")
-                        .WithMany("DoctorSpecialists")
-                        .HasForeignKey("DoctorId");
-
-                    b.Navigation("Doctor");
-                });
-
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
                 {
                     b.HasOne("Final_Project.Models.DomainModels.Doctor", "Doctor")
@@ -539,6 +538,19 @@ namespace Final_Project.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctroSpecialist", b =>
+                {
+                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", null)
+                        .WithMany("DoctroSpecialists")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Final_Project.Models.DomainModels.Doctor", "Doctor")
+                        .WithMany("SpecialDoctors")
+                        .HasForeignKey("DoctorId");
+
+                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.PhoneUser", b =>
@@ -609,7 +621,7 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
                 {
-                    b.Navigation("DoctorSpecialists");
+                    b.Navigation("DoctroSpecialists");
 
                     b.Navigation("Phones");
                 });
@@ -630,6 +642,8 @@ namespace Final_Project.Migrations
                     b.Navigation("Doctor_Patients");
 
                     b.Navigation("PhoneDoctors");
+
+                    b.Navigation("SpecialDoctors");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Patient", b =>

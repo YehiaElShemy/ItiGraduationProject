@@ -7,6 +7,7 @@ namespace Final_Project.Models.DataContext
 {
     public class DataContext : IdentityDbContext<ApplicationUser>
     {
+        
         public DataContext() : base()
         {
 
@@ -14,16 +15,21 @@ namespace Final_Project.Models.DataContext
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Patient> patients { get; set; }
-        public DbSet<Clinic> Clinics { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Doctor_patient> Doctor_Patients { get; set; }
-        public DbSet<PhoneUser> PhoneUsers { get; set; }
-        public DbSet<DoctroSpecialist> DoctroSpecialists { get; set; }
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<Patient> patients { get; set; }
+        public virtual DbSet<Clinic> Clinics { get; set; }
+        public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<Doctor_patient> Doctor_Patients { get; set; }
+        public virtual DbSet<PhoneUser> PhoneUsers { get; set; }
+        public virtual DbSet<DoctorSpecialist> DoctorSpecialists { get; set; }
       
-        public DbSet<Clinic_patient> Clinic_Patients { get; set; }
+        public virtual DbSet<Clinic_patient> Clinic_Patients { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.UseLazyLoadingProxies();
+            base.OnConfiguring(optionsBuilder);
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

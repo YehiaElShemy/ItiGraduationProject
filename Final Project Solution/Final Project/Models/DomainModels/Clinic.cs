@@ -20,7 +20,7 @@ namespace Final_Project.Models.DomainModels
         public string? PhoneClinic { get; set; }
         public List<Appointment>? Appointments { get; set; }
         public List<Clinic_patient>? Clinic_Patients { get; set; }
-        public List<Doctor>? Doctors { get; set; }
+        public virtual List<ApplicationUser>? Doctors { get; set; }
 
     }
 

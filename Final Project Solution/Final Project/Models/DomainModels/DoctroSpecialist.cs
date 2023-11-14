@@ -2,12 +2,12 @@
 
 namespace Final_Project.Models.DomainModels
 {
-    public class DoctroSpecialist
+    public class DoctorSpecialist
     {
         public int Id { get; set; }
         public string? SpecialName  { get; set; }
         [ForeignKey(nameof(Doctor))]
         public string? DoctorId { get; set; }
-        public Doctor? Doctor { get; set; }
+        public virtual ApplicationUser? Doctor { get; set; }
     }
 }
