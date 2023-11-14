@@ -1,6 +1,7 @@
 ﻿using Final_Project.Models.DataContext;
 using Final_Project.Models.DomainModels;
 using Final_Project.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,33 +23,42 @@ namespace Final_Project.Controllers
         }
         [HttpPost]
         [AutoValidateAntiforgeryToken]
+      
         public async Task<IActionResult> AddAppoint(AppointmentVm newAppoint ,string Id)
         { 
-            
-            ApplicationUser Doctor = await userManager.FindByIdAsync(Id);
-            ApplicationUser Patient = await userManager.FindByEmailAsync(newAppoint.Email);
-            var clinic=db.Clinics.Find(Doctor.ClinicId);
-            if (Patient == null || Doctor==null || clinic==null)
+            if(ModelState.IsValid)
             {
-                return View("Index", "Home");
+                ApplicationUser Doctor = await userManager.FindByIdAsync(Id);
+                ApplicationUser Patient = await userManager.FindByEmailAsync(newAppoint.Email);
+                var clinic = db.Clinics.Find(Doctor.ClinicId);
+                if (Patient == null || Doctor == null || clinic == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                Appointment appointment = new Appointment()
+                {
+                    PatientName = newAppoint.PatientName,
+                    PhoneNumber = newAppoint.PhoneNumber,
+                    DoctorId = Doctor.Id,
+                    PatientId = Patient.Id,
+                    Description = newAppoint.Description,
+                    DateReserved = newAppoint.DateReserved,
+                    TimeReserved = newAppoint.TimeReserved,
+                    ClinicId = clinic.Id
+
+                };
+                db.Appointments.Add(appointment);
+                db.SaveChanges();
+
+
+                return RedirectToAction("Index", "Home");
             }
-            Appointment appointment = new Appointment()
+            else
             {
-                PatientName=newAppoint.PatientName,
-                PhoneNumber=newAppoint.PhoneNumber,
-                DoctorId=Doctor.Id,
-                PatientId=Patient.Id,
-                Description=newAppoint.Description,
-                DateReserved =newAppoint.DateReserved,
-                TimeReserved=newAppoint.TimeReserved,
-                ClinicId="122"//clinic.Id
-                
-            };
-            db.Appointments.Add(appointment);
-            db.SaveChanges();
+                ModelState.AddModelError("", "email is required");
+                return RedirectToAction("searchDoctor", "Doctor");
+            }
 
-
-            return View("Index","Home");
         }
 
 

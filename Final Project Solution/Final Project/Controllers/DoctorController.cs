@@ -65,7 +65,7 @@ namespace Final_Project.Controllers
                     City = doc.City,
                     Country = doc.Country,
                     Region = doc.Region,
-                    Doctor_State = doc.Doctor_State,
+                
                     ImageName = doc.ImageName
 
                 });
@@ -117,7 +117,6 @@ namespace Final_Project.Controllers
                     City = doc.City,
                     Country = doc.Country,
                     Region = doc.Region,
-                    Doctor_State = doc.Doctor_State,
                     ImageName = doc.ImageName
                 });
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Final_Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231108202317_edit2")]
-    partial class edit2
+    [Migration("20231114204818_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,111 @@ namespace Final_Project.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Age")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClinicId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Doctor_State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
+
+                    b.UseTphMappingStrategy();
+                });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Appointment", b =>
                 {
@@ -57,7 +162,7 @@ namespace Final_Project.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("TimeReserved")
+                    b.Property<DateTime?>("TimeReserved")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -129,6 +234,27 @@ namespace Final_Project.Migrations
                     b.ToTable("Clinic_Patients");
                 });
 
+            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctorSpecialist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SpecialName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorSpecialists");
+                });
+
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
                 {
                     b.Property<string>("DoctorId")
@@ -148,27 +274,6 @@ namespace Final_Project.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Doctor_Patients");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctroSpecialist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SpecialName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("DoctroSpecialists");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.PhoneUser", b =>
@@ -228,21 +333,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "3c318d52-02bd-419b-987b-c66ca22c8917",
+                            ConcurrencyStamp = "ebe213dd-4bcf-4718-b406-c1bcd7d411b4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "f03b2f3a-e2b4-402e-ba45-b2aa12d6ff12",
+                            ConcurrencyStamp = "b0ca87a3-0e52-4d99-ba89-2eac818a6144",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "c9a3e513-0f2f-4b39-9cd7-7ab65fd7ac57",
+                            ConcurrencyStamp = "953198b2-67a2-4109-b2c3-0b1494c80e51",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -271,79 +376,6 @@ namespace Final_Project.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -427,43 +459,9 @@ namespace Final_Project.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int?>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClinicId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Doctor_State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor", b =>
                 {
                     b.HasBaseType("Final_Project.Models.DomainModels.ApplicationUser");
-
-                    b.HasIndex("ClinicId");
 
                     b.HasDiscriminator().HasValue("Doctor");
                 });
@@ -472,9 +470,16 @@ namespace Final_Project.Migrations
                 {
                     b.HasBaseType("Final_Project.Models.DomainModels.ApplicationUser");
 
-                    b.HasIndex("ClinicId");
-
                     b.HasDiscriminator().HasValue("Patient");
+                });
+
+            modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
+                {
+                    b.HasOne("Final_Project.Models.DomainModels.Clinic", "Clinic")
+                        .WithMany("Doctors")
+                        .HasForeignKey("ClinicId");
+
+                    b.Navigation("Clinic");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Appointment", b =>
@@ -517,6 +522,15 @@ namespace Final_Project.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctorSpecialist", b =>
+                {
+                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Doctor")
+                        .WithMany("DoctorSpecialists")
+                        .HasForeignKey("DoctorId");
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
                 {
                     b.HasOne("Final_Project.Models.DomainModels.Doctor", "Doctor")
@@ -534,15 +548,6 @@ namespace Final_Project.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.DoctroSpecialist", b =>
-                {
-                    b.HasOne("Final_Project.Models.DomainModels.Doctor", "Doctor")
-                        .WithMany("SpecialDoctors")
-                        .HasForeignKey("DoctorId");
-
-                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.PhoneUser", b =>
@@ -571,7 +576,7 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -580,7 +585,7 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -595,7 +600,7 @@ namespace Final_Project.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -604,29 +609,18 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor", b =>
+            modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
                 {
-                    b.HasOne("Final_Project.Models.DomainModels.Clinic", "Clinic")
-                        .WithMany("Doctors")
-                        .HasForeignKey("ClinicId");
+                    b.Navigation("DoctorSpecialists");
 
-                    b.Navigation("Clinic");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Patient", b =>
-                {
-                    b.HasOne("Final_Project.Models.DomainModels.Clinic", "Clinic")
-                        .WithMany()
-                        .HasForeignKey("ClinicId");
-
-                    b.Navigation("Clinic");
+                    b.Navigation("Phones");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Clinic", b =>
@@ -638,11 +632,6 @@ namespace Final_Project.Migrations
                     b.Navigation("Doctors");
                 });
 
-            modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
-                {
-                    b.Navigation("Phones");
-                });
-
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor", b =>
                 {
                     b.Navigation("Appointments");
@@ -650,8 +639,6 @@ namespace Final_Project.Migrations
                     b.Navigation("Doctor_Patients");
 
                     b.Navigation("PhoneDoctors");
-
-                    b.Navigation("SpecialDoctors");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Patient", b =>

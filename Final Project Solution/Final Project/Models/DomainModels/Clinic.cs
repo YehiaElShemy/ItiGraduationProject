@@ -8,6 +8,8 @@ namespace Final_Project.Models.DomainModels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string? Id { get; set; }
+        //[Key]
+        //public string? Id { get; set; } = Guid.NewGuid().ToString();
         public string? Email { get; set; }
         public string Name { get; set; }
         public string? Country { get; set; }

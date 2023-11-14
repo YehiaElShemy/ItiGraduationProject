@@ -50,9 +50,6 @@ namespace Final_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Doctor_State")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -324,21 +321,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "2c77a7a4-c5d9-4b8c-8748-0a7611c6b117",
+                            ConcurrencyStamp = "6ec98398-e39a-445b-bd82-939f1527cb84",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "b2fc35d9-519d-4848-97a8-d1bcc7d917ae",
+                            ConcurrencyStamp = "a52e79c3-b3f0-43f4-8165-95e445eb667a",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "7f07766f-40f0-4c90-99e9-492b4e940028",
+                            ConcurrencyStamp = "648ae7a1-fbf5-4596-9349-502dd3123ba6",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });

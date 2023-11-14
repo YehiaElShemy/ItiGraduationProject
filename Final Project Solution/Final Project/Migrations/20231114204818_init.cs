@@ -72,15 +72,15 @@ namespace Final_Project.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
                     Doctor_State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -115,9 +115,9 @@ namespace Final_Project.Migrations
                     PatientName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateReserved = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeReserved = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeReserved = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AppointState = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ClinicId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -280,7 +280,7 @@ namespace Final_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DoctroSpecialists",
+                name: "DoctorSpecialists",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -290,9 +290,9 @@ namespace Final_Project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctroSpecialists", x => x.Id);
+                    table.PrimaryKey("PK_DoctorSpecialists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DoctroSpecialists_AspNetUsers_DoctorId",
+                        name: "FK_DoctorSpecialists_AspNetUsers_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -329,9 +329,9 @@ namespace Final_Project.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "82ba869f-5630-4744-882f-c0ec9fc531ba", "Admin", "ADMIN" },
-                    { "2", "6969f6b0-312c-42fd-90b0-65448fb079b5", "Doctor", "DOCTOR" },
-                    { "3", "ccf33428-aee0-4335-8475-8e86f8f3d528", "Patient", "PATIENT" }
+                    { "1", "ebe213dd-4bcf-4718-b406-c1bcd7d411b4", "Admin", "ADMIN" },
+                    { "2", "b0ca87a3-0e52-4d99-ba89-2eac818a6144", "Doctor", "DOCTOR" },
+                    { "3", "953198b2-67a2-4109-b2c3-0b1494c80e51", "Patient", "PATIENT" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -404,8 +404,8 @@ namespace Final_Project.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctroSpecialists_DoctorId",
-                table: "DoctroSpecialists",
+                name: "IX_DoctorSpecialists_DoctorId",
+                table: "DoctorSpecialists",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
@@ -447,7 +447,7 @@ namespace Final_Project.Migrations
                 name: "Doctor_Patients");
 
             migrationBuilder.DropTable(
-                name: "DoctroSpecialists");
+                name: "DoctorSpecialists");
 
             migrationBuilder.DropTable(
                 name: "PhoneUsers");

@@ -45,7 +45,7 @@ namespace Final_Project.Controllers
                     City = doc.City,
                     Country=doc.Country,
                     Region=doc.Region,
-                    Doctor_State=doc.Doctor_State,
+                   
                     ImageName = doc.ImageName
                     
                 }) ; 
@@ -74,6 +74,8 @@ namespace Final_Project.Controllers
             if (ModelState.IsValid)
             {
                 string imageName=userRepositry.UploadFile(NewUser.Image);
+                if (NewUser.RoleName == "Patient") { NewUser.ClinicId = null;}
+
                 ApplicationUser user = new ApplicationUser()
                 {
                     UserName = NewUser.UserName,
@@ -83,7 +85,6 @@ namespace Final_Project.Controllers
                     Country = NewUser.Country,
                     City=NewUser.City,
                     Region= NewUser.Region,
-                    Doctor_State = NewUser.Doctor_State,
                     ImageName=imageName,
                     ClinicId=NewUser.ClinicId,
                 };
