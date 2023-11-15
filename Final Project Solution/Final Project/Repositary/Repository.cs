@@ -57,7 +57,7 @@ namespace Final_Project.Repositary
             var AllDoctortoClinic = db.Users.ToList();
             IEnumerable<ApplicationUser> applicationUsers = AllDoctortoClinic
               .Cast<ApplicationUser>()
-             .Where(d => d.ClinicId == id)
+             .Where(d => d.ClinicId == id && d.Region!=null)
                  .ToList();
             return applicationUsers;
         }

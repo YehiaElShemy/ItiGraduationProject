@@ -5,6 +5,7 @@ using Final_Project.ViewModel;
 using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using static Azure.Core.HttpHeader;
@@ -50,6 +51,9 @@ namespace Final_Project.Controllers
         public async Task<IActionResult> searchDoctor()
         {
             var users = await userManager.GetUsersInRoleAsync("Doctor");
+            ViewBag.AllDoctors = users;
+            ViewBag.AllClinics = db.Clinics.ToList();
+            ViewBag.AllSpecialist = db.DoctorSpecialists.ToList();
             List<UserRegisterVM> doctors = new List<UserRegisterVM>();
             foreach (var doc in users)
             {
@@ -75,7 +79,7 @@ namespace Final_Project.Controllers
         }
 
         [HttpPost]
-        public IActionResult searchDoctor(string doctorName, string region, string specialName)
+        public async Task<IActionResult> searchDoctor(string doctorName, string region, string specialName)
         {
             // Start with a base query that includes the necessary navigation properties
             var searchQuery = db.Users.Where(d=>d.DoctorSpecialists.Count()!=0).Include(d => d.DoctorSpecialists).Include(user => user.Clinic).ToList();
@@ -121,6 +125,10 @@ namespace Final_Project.Controllers
                 });
 
             }
+            var users = await userManager.GetUsersInRoleAsync("Doctor");
+            ViewBag.AllDoctors = users;
+            ViewBag.AllClinics = db.Clinics.ToList();
+            ViewBag.AllSpecialist = db.DoctorSpecialists.ToList();
 
             return View("searchDoctor", doctors);
 
