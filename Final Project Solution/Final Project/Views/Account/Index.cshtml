@@ -37,9 +37,6 @@
                 @Html.DisplayNameFor(model => model.Region)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Doctor_State)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.SpecialistDoctors)
             </th>
             <th>
@@ -83,9 +80,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Region)
                 </td>
-                <td>
+             @*    <td>
                     @Html.DisplayFor(modelItem => item.Doctor_State)
-                </td>
+                </td> *@
                 <td>
                     <select asp-items="new SelectList(item.SpecialistDoctors)"></select>
 
