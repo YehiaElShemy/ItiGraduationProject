@@ -3,11 +3,14 @@ using Final_Project.Models.DomainModels;
 using Final_Project.Repositary;
 using Final_Project.ViewModel;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
+using System.Linq;
+using System.Security.Claims;
 using static Azure.Core.HttpHeader;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -69,7 +72,7 @@ namespace Final_Project.Controllers
                     City = doc.City,
                     Country = doc.Country,
                     Region = doc.Region,
-                
+
                     ImageName = doc.ImageName
 
                 });
@@ -82,7 +85,7 @@ namespace Final_Project.Controllers
         public async Task<IActionResult> searchDoctor(string doctorName, string region, string specialName)
         {
             // Start with a base query that includes the necessary navigation properties
-            var searchQuery = db.Users.Where(d=>d.DoctorSpecialists.Count()!=0).Include(d => d.DoctorSpecialists).Include(user => user.Clinic).ToList();
+            var searchQuery = db.Users.Where(d => d.DoctorSpecialists.Count() != 0).Include(d => d.DoctorSpecialists).Include(user => user.Clinic).ToList();
 
             // Apply filters based on the provided parameters
             if (!string.IsNullOrEmpty(doctorName))
@@ -135,7 +138,48 @@ namespace Final_Project.Controllers
 
         }
 
-      
+        [HttpGet]
+        [Authorize(Roles ="Doctor")]
+        public IActionResult ShowAllPatientforDoctor()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var AllAppointment = db.Appointments.Where(p=>p.DoctorId== userId).ToList();
+            if(userId !=null && AllAppointment != null)
+            {
+                
+                List<PatientAppointmentsVM> PatientsAppoints = new List<PatientAppointmentsVM>();
+                foreach (var item in AllAppointment)
+                {
+                    
+                    var patient = db.Users.Where(u => u.Id == item.PatientId).FirstOrDefault();
+                    if (patient != null)
+                    {
+                        PatientAppointmentsVM patientAppoint=new PatientAppointmentsVM()
+                        {
+                            UserName = patient.UserName,
+                            PhoneNumbers = db.PhoneUsers.Where(p => p.UserId == patient.Id).Select(p => p.PhoneNumber).ToList(),
+                            Email = patient.Email,
+                            Gender = patient.Gender,
+                            Age = patient.Age,
+                            ImageName = patient.ImageName,
+                            DateReserved = item.DateReserved,
+                            TimeReserved=item.TimeReserved,
+                            
+
+                        };
+                        PatientsAppoints.Add(patientAppoint);
+
+                    }
+
+                }
+                return View(PatientsAppoints);
+
+            }
+            return NotFound();
+
+        }
+
+
 
 
     }

@@ -9,10 +9,10 @@ namespace Final_Project.Models.DomainModels
         public DateTime Date_Messge { get; set; }
         [ForeignKey(nameof(Clinic))]
         public string CinicId { get; set; }
-        public Clinic Clinic { get; set; }
+        public virtual Clinic Clinic { get; set; }
         [ForeignKey(nameof(Patient))]
         public string PatientId { get; set; }
-        public Patient Patient { get; set; }
+        public virtual ApplicationUser Patient { get; set; }
 
     }
 

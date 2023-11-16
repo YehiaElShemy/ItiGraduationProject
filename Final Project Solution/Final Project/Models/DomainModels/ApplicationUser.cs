@@ -18,7 +18,11 @@ namespace Final_Project.Models.DomainModels
         public string? ClinicId { get; set; }
         public virtual Clinic? Clinic { get; set; }
         public virtual List<DoctorSpecialist>? DoctorSpecialists { get; set; }
-        public List<PhoneUser>? Phones { get; set; }
+        public virtual List<PhoneUser>? Phones { get; set; }
+       
+        public virtual ICollection<Appointment>? AppointmentsPatients { get; set; }
+      
+        public virtual ICollection<Appointment>? AppointmentsDoctors { get; set; }
 
 
     }

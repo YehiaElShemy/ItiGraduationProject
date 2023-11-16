@@ -9,9 +9,9 @@ namespace Final_Project.Models.DomainModels
         public DateTime? Date_Examin { get; set; }
         [ForeignKey(nameof(Doctor))]
         public string? DoctorId { get; set; }
-        public Doctor? Doctor { get; set; }
+        public virtual ApplicationUser? Doctor { get; set; }
         [ForeignKey(nameof(Patient))]
         public string? PatientId { get; set; }
-        public Patient? Patient { get; set; }
+        public ApplicationUser? Patient { get; set; }
     }
 }

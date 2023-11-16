@@ -20,8 +20,8 @@ namespace Final_Project.Models.DomainModels
         [DataType(DataType.Time)]
         public DateTime? EndDate { get; set; }
         public string? PhoneClinic { get; set; }
-        public List<Appointment>? Appointments { get; set; }
-        public List<Clinic_patient>? Clinic_Patients { get; set; }
+        public virtual List<Appointment>? Appointments { get; set; }
+        public virtual List<Clinic_patient>? Clinic_Patients { get; set; }
         public virtual List<ApplicationUser>? Doctors { get; set; }
 
     }

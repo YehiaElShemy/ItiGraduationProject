@@ -188,7 +188,7 @@ namespace Final_Project.Controllers
                 {
                     //Create cookies
                     Microsoft.AspNetCore.Identity.SignInResult result =
-                        await signInManager.PasswordSignInAsync(User, userLogin.Password, userLogin.IsPersisite,false); //create cookie
+                        await signInManager.PasswordSignInAsync(User, userLogin.Password, userLogin.RemmberMe,false); //create cookie
                     if (result.Succeeded)
                     {
                         return LocalRedirect(ReturnUrl);

@@ -10,9 +10,9 @@ namespace Final_Project.Models.DomainModels
         //public string? Email { get; set; }
       
        
-        public List<PhoneUser>? PhoneDoctors { get; set; }
-        public List<Appointment>? Appointments { get; set; }
-        public List<Doctor_patient>? Doctor_Patients { get; set; }
+        public virtual List<PhoneUser>? PhoneDoctors { get; set; }
+        public virtual List<Appointment>? Appointments { get; set; }
+        public virtual List<Doctor_patient>? Doctor_Patients { get; set; }
       
     }
 }
