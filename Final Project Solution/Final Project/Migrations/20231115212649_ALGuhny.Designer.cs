@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Final_Project.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231114211910_init1")]
-    partial class init1
+    [Migration("20231115212649_ALGuhny")]
+    partial class ALGuhny
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,10 +205,12 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Clinic_patient", b =>
                 {
-                    b.Property<string>("CinicId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PatientId")
+                    b.Property<string>("CinicId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Clinic_Message")
@@ -218,7 +220,13 @@ namespace Final_Project.Migrations
                     b.Property<DateTime>("Date_Messge")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CinicId", "PatientId");
+                    b.Property<string>("PatientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CinicId");
 
                     b.HasIndex("PatientId");
 
@@ -248,19 +256,25 @@ namespace Final_Project.Migrations
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
                 {
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("Date_Examin")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ExaminationDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DoctorId", "PatientId");
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
 
@@ -324,21 +338,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "6ec98398-e39a-445b-bd82-939f1527cb84",
+                            ConcurrencyStamp = "eda44472-77d4-44b2-a535-5cfb08943434",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "a52e79c3-b3f0-43f4-8165-95e445eb667a",
+                            ConcurrencyStamp = "7ec150b7-0e73-423f-9bf3-1bcf591050d5",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "648ae7a1-fbf5-4596-9349-502dd3123ba6",
+                            ConcurrencyStamp = "ca251e73-2b92-4050-9182-78fbaf0d7259",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -526,15 +540,11 @@ namespace Final_Project.Migrations
                 {
                     b.HasOne("Final_Project.Models.DomainModels.Doctor", "Doctor")
                         .WithMany("Doctor_Patients")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("Final_Project.Models.DomainModels.Patient", "Patient")
                         .WithMany("Doctor_Patients")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Doctor");
 

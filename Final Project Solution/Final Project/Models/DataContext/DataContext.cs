@@ -33,10 +33,16 @@ namespace Final_Project.Models.DataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Clinic_patient>()
-             .HasKey(m => new { m.CinicId, m.PatientId });
-            modelBuilder.Entity<Doctor_patient>()
-            .HasKey(m => new { m.DoctorId, m.PatientId });
+            //modelBuilder.Entity<Clinic_patient>()
+            // .HasKey(m => new { m.CinicId, m.PatientId });
+            //modelBuilder.Entity<Doctor_patient>()
+            //.HasKey(m => new { m.DoctorId, m.PatientId });
+
+            //modelBuilder.Entity<Doctor_patient>()
+            //.HasOne(dp => dp.Patient)
+            //.WithMany(p => p.Doctor_Patients)
+            //.HasForeignKey(dp => dp.PatientId)
+            //.OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },

@@ -4,6 +4,7 @@
 @model IEnumerable<Final_Project.Models.DomainModels.Clinic>
 @inject UserManager<ApplicationUser> usermanger
 @inject Repository<Clinic> ClinicDoctors;
+@inject Repository<Clinic> ClinicAppointments;
 @{
     ViewData["Title"] = "Index";
 }
@@ -65,12 +66,14 @@
 
                     <select name="Id" id="Id" class="form-control">
                         @* <option value="">Select To Filter</option> *@
-
+                        @{
+                            var Appointments =  ClinicAppointments.GetAppointmentsForAClinic(item.Id);
+                        }
                         @if (item.Appointments!=null)
                         {
                             @foreach (var items in item.Appointments)
                             {
-                                <option value="@items.Patient.UserName">@items.Patient.UserName</option>
+                                <option value="@items.PatientName">@items.PatientName</option>
                             }
                         
                         }
@@ -85,7 +88,7 @@
 
                     <select class="form-control">
                         @{
-                            var Doctors = ClinicDoctors.GetDoctorsForAClinic(item.Id);
+                            var Doctors =await ClinicDoctors.GetDoctorsForAClinic(item.Id);
                         }
                         @if (Doctors != null)
                         {
