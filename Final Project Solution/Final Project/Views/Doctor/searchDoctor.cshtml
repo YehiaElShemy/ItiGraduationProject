@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<UserRegisterVM>
 @{
     ViewData["Title"] = "searchDoctor";
+    SelectList selectsDoctors = new SelectList(ViewBag.AllDoctors, "UserName", "UserName");
+    SelectList selectsClinics = new SelectList(ViewBag.AllClinics, "City", "City");
+    SelectList selectsSpecialLists = new SelectList(ViewBag.AllSpecialist, "SpecialName", "SpecialName");
+
+
 }
 
 <h1>Search About your Doctor prefer</h1>
@@ -9,9 +14,37 @@
     <h1 class="mb-4">Find a Doctor</h1>
     <form asp-action="searchDoctor" method="post">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search for a doctor" name="doctorName" aria-label="Search for a doctor" aria-describedby="button-search">
-            <input type="text" class="form-control" placeholder="Search by regoin" name="region" aria-label="Search for a doctor" aria-describedby="button-search">
-            <input type="text" class="form-control" placeholder="Search by specialist" name="specialname" aria-label="Search for a doctor" aria-describedby="button-search">
+            <label for="selectedDoctor">Select a Doctor:</label>
+            <div class="form-group">
+                <input name="doctorName" list="Doctorssearch"class="form-control" />
+                <datalist id="Doctorssearch">
+                    @foreach (var item in selectsDoctors)
+                    {
+                        <option value="@item.Text">@item.Text</option>
+                    }
+                </datalist>
+            </div>
+
+            <label for="selectedCity">Select a City:</label>
+            <div class="form-group">
+                <input name="region" list="Cityssearch" class="form-control" />
+                <datalist id="Cityssearch">
+                    @foreach (var item in selectsClinics)
+                    {
+                        <option value="@item.Text">@item.Text</option>
+                    }
+                </datalist>
+            </div>
+            <label for="selectedSepcialist">Select a Sepcialist:</label>
+            <div class="form-group">
+                <input name="specialName" list="Sepcialistssearch" class="form-control" />
+                <datalist id="Sepcialistssearch">
+                    @foreach (var item in selectsSpecialLists)
+                    {
+                        <option value="@item.Text">@item.Text</option>
+                    }
+                </datalist>
+            </div>
             <button class="btn btn-primary" type="submit" id="button-search">Search</button>
         </div>
     </form>

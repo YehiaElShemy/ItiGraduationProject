@@ -9,6 +9,6 @@ namespace Final_Project.ViewModel
         [DataType(DataType.Password), Required(ErrorMessage = "Enter complex password")]
         public string Password { get; set; }
 
-        public bool IsPersisite { get; set; }
+        public bool RemmberMe { get; set; }
     }
 }
