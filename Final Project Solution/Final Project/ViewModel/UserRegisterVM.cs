@@ -23,15 +23,15 @@ namespace Final_Project.ViewModel
         [Required(ErrorMessage ="Image Required" )]
         //[DataType(DataType.Upload)]
         [NotMapped]
-        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "Only jpg, jpeg, png, and gif file types are allowed.")]
+       //[RegularExpression(@"[^\\s]+(.*?)\\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$", ErrorMessage = "Only jpg, jpeg, png, and gif file types are allowed.")]
         public IFormFile Image { get; set; }
         public string? ImageName { get; set; }
-        [Required(ErrorMessage = "Enter Your Country")]
+    
         public string? Country { get; set; }
-        [Required(ErrorMessage = "Enter Your City")]
+     
 
         public string? City { get; set; }
-        [Required(ErrorMessage ="Enter Your Regoin")]
+       
         public string? Region { get; set; }
         public List<string>? SpecialistDoctors { get; set; }
         [DataType(DataType.Password), Required(ErrorMessage = "Enter complex password")]
