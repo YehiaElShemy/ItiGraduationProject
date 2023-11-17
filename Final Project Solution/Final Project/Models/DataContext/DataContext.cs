@@ -38,6 +38,12 @@ namespace Final_Project.Models.DataContext
             modelBuilder.Entity<Doctor_patient>()
             .HasKey(m => new { m.DoctorId, m.PatientId });
 
+            //modelBuilder.Entity<Doctor_patient>()
+            //.HasOne(dp => dp.Patient)
+            //.WithMany(p => p.Doctor_Patients)
+            //.HasForeignKey(dp => dp.PatientId)
+            //.OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
                 new IdentityRole { Id = "2", Name = "Doctor", NormalizedName = "DOCTOR" },

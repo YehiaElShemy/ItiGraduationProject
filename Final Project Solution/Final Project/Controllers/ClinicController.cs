@@ -18,7 +18,8 @@ namespace Final_Project.Controllers
     {
         public DataContext db { get; set; }
         IRepository<Clinic> repostory;
-        private readonly UserManager<IdentityUser> userManager;
+        //private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         //private IProduct Product;
         public ClinicController(IRepository<Clinic> _repostory, DataContext _db, RoleManager<IdentityRole> _roleManager)
@@ -39,13 +40,17 @@ namespace Final_Project.Controllers
             ////////////////////
 
             //var AllDoctortoClinic=db.Doctors.Where(d=>d.ClinicId== "8093f94c-331f-439e-84b0-adac6d760dcc").ToList();
-            
+
+            //var users = await userManager.GetUsersInRoleAsync("Doctor");
+            //ViewBag.AllDoctors = users;
+            //ViewBag.AllClinics = db.Clinics.ToList();
+            //ViewBag.AllSpecialist = db.DoctorSpecialists.ToList();
 
 
 
 
             // Pass it to ViewBag
-          //  ViewBag.DoctorNames = applicationUsers;
+            //  ViewBag.DoctorNames = applicationUsers;
 
 
 
@@ -57,6 +62,8 @@ namespace Final_Project.Controllers
         //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
+
+
             return View();
         }
 
@@ -158,7 +165,7 @@ namespace Final_Project.Controllers
         }
 
 
-
+        
 
 
     }

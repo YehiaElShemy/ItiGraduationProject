@@ -130,6 +130,7 @@ namespace Final_Project.Controllers
             }
             var users = await userManager.GetUsersInRoleAsync("Doctor");
             ViewBag.AllDoctors = users;
+
             ViewBag.AllClinics = db.Clinics.ToList();
             ViewBag.AllSpecialist = db.DoctorSpecialists.ToList();
 
