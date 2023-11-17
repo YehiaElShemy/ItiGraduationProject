@@ -5,7 +5,7 @@
 @inject UserManager<ApplicationUser> usermanger
 @inject Repository<Clinic> ClinicDoctors;
 @inject Repository<Clinic> ClinicAppointments;
-@inject Clinic ClinicController_Inject;
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -110,13 +110,16 @@
 
                                     <select class="form-control">
                                         @{
+                                            //var DoctorsInRole = @ViewBag.AllDoctors;
+
                                             var Doctors = await ClinicDoctors.GetDoctorsForAClinic(item.Id);
                                         }
                                         @if (Doctors != null)
                                         {
+
                                             @foreach (var Doctor_Name in Doctors)
                                             {
-
+                                                
                                                 <option value="Doctor_Name">@Doctor_Name</option>
 
 
