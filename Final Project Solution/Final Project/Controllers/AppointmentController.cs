@@ -4,6 +4,7 @@ using Final_Project.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Final_Project.Controllers
 {
@@ -12,7 +13,7 @@ namespace Final_Project.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly DataContext db;
 
-        public AppointmentController(UserManager<ApplicationUser> userManager ,DataContext _db)
+        public AppointmentController(UserManager<ApplicationUser> userManager, DataContext _db)
         {
             this.userManager = userManager;
             db = _db;
@@ -23,10 +24,10 @@ namespace Final_Project.Controllers
         }
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-      
-        public async Task<IActionResult> AddAppoint(AppointmentVm newAppoint ,string Id)
-        { 
-            if(ModelState.IsValid)
+
+        public async Task<IActionResult> AddAppoint(AppointmentVm newAppoint, string Id)
+        {
+            if (ModelState.IsValid)
             {
                 ApplicationUser Doctor = await userManager.FindByIdAsync(Id);
                 ApplicationUser Patient = await userManager.FindByEmailAsync(newAppoint.Email);
@@ -49,9 +50,9 @@ namespace Final_Project.Controllers
                 };
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
+                TempData["success"] = $"Appointment Reserved Successfully in doctor {Doctor.UserName} ";
 
-
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("PatientAppointment", "Appointment");
             }
             else
             {
@@ -60,7 +61,92 @@ namespace Final_Project.Controllers
             }
 
         }
+        [HttpGet]
+        [Authorize(Roles = "Patient")]
+        public IActionResult PatientAppointment()
+        {
+            ViewBag.success = TempData["success"];
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var AllAppointment = db.Appointments.Where(p => p.PatientId == userId).ToList();
+            if (userId != null && AllAppointment.Count() > 0)
+            {
+                List<PatientAppointmentsVM> PatientsAppoints = new List<PatientAppointmentsVM>();
+                foreach (var item in AllAppointment)
+                {
+
+                    var Doctor = db.Users.Where(u => u.Id == item.DoctorId).FirstOrDefault();
+                    if (Doctor != null)
+                    {
+                        PatientAppointmentsVM patientAppoint = new PatientAppointmentsVM()
+                        {
+                            Id = item.Id,
+                            doctorId = item.DoctorId,
+                            UserName = Doctor.UserName,
+                            PhoneNumbers = db.PhoneUsers.Where(p => p.UserId == Doctor.Id).Select(p => p.PhoneNumber).ToList(),
+                            Email = Doctor.Email,
+                            Gender = Doctor.Gender,
+                            Age = Doctor.Age,
+                            ImageName = Doctor.ImageName,
+                            DateReserved = item.DateReserved,
+                            TimeReserved = item.TimeReserved,
 
 
+                        };
+                        PatientsAppoints.Add(patientAppoint);
+
+                    }
+
+                }
+                return View(PatientsAppoints);
+
+            }
+
+            return NotFound();
+        }
+
+
+
+        public IActionResult DeleteAppointment(int id)
+        {
+            var appointment = db.Appointments.Find(id);
+            db.Appointments.Remove(appointment);
+            db.SaveChanges();
+            return RedirectToAction("PatientAppointment");
+        }
+        [HttpGet]
+
+        public async Task<IActionResult> EditAppointment(int id)
+        {
+            var appointment = db.Appointments.Find(id);
+            return View(appointment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAppointment(int id, AppointmentVm editappoint)
+        {
+            var appointment = db.Appointments.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                appointment.PatientName = editappoint.PatientName;
+                appointment.PhoneNumber = editappoint.PhoneNumber;
+                appointment.Description = editappoint.Description;
+                appointment.DateReserved = editappoint.DateReserved;
+                appointment.TimeReserved = editappoint.TimeReserved;
+                db.SaveChanges();
+                //  TempData["success"] = $"Appointment Edit Successfully in doctor {Doctor.UserName} ";
+
+                return RedirectToAction("PatientAppointment", "Appointment");
+            }
+            else
+            {
+                ModelState.AddModelError("", "email is required");
+                return RedirectToAction("searchDoctor", "Doctor");
+            }
+
+
+
+        }
     }
 }

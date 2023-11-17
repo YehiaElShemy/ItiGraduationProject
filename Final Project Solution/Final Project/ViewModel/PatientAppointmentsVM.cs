@@ -8,6 +8,8 @@ namespace Final_Project.ViewModel
 {
     public class PatientAppointmentsVM
     {
+        public int Id { get; set; }
+        public string doctorId { get; set; }
         public string? UserName { get; set; }
         [Required]
         [EmailAddress]
