@@ -109,6 +109,7 @@ namespace Final_Project.Controllers
         {
             var appointment = db.Appointments.Find(id);
             db.Appointments.Remove(appointment);
+            db.Appointments.Remove(appointment);
             db.SaveChanges();
             return RedirectToAction("PatientAppointment");
         }
