@@ -58,25 +58,30 @@ namespace Final_Project.Repositary
             var AllDoctortoClinic = db.Users.ToList();
             IEnumerable<ApplicationUser> SpecificDoctors_EachClinic = AllDoctortoClinic
               .Cast<ApplicationUser>()
-             .Where(d => d.ClinicId == id && d.Region!=null)
+             .Where(d => d.ClinicId == id && d.Region != null)
                  .ToList();
-            //var doctorsInClinic = await userManager.GetUsersInRoleAsync("Doctor");
-            //IEnumerable<ApplicationUser> SpecificDoctors_EachClinic= doctorsInClinic.Cast<ApplicationUser>().Where(D =>D.ClinicId == id); 
             return SpecificDoctors_EachClinic;
+            ////////
+
+            //var users = await userManager.GetUsersInRoleAsync("Doctor");
+            //IEnumerable<ApplicationUser> SpecificDoctors_EachClinic = users
+            //  .Cast<ApplicationUser>()
+            //  .Where(d => d.ClinicId == id)
+            //  .ToList();
+            //return SpecificDoctors_EachClinic;
+
         }
 
 
         public List<Appointment> GetAppointmentsForAClinic(string id)
         {
-            //id "8093f94c-331f-439e-84b0-adac6d760dcc"
             var AllDoctortoClinic = db.Appointments.ToList();
             List<Appointment> SpecificDoctors_EachClinic = AllDoctortoClinic
              .Cast<Appointment>()
              .Where(A => A.ClinicId == id).ToList();
-            //var doctorsInClinic = await userManager.GetUsersInRoleAsync("Doctor");
-            //IEnumerable<ApplicationUser> SpecificDoctors_EachClinic= doctorsInClinic.Cast<ApplicationUser>().Where(D =>D.ClinicId == id); 
             return SpecificDoctors_EachClinic;
         }
+
 
 
 

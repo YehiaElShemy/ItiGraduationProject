@@ -25,6 +25,7 @@ namespace Final_Project
             builder.Services.AddScoped<AppointmentVm>();
             builder.Services.AddScoped<IRepository<Clinic>, Repository<Clinic>>();
             builder.Services.AddScoped<Repository<Clinic>>();
+            builder.Services.AddScoped<Clinic>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders()

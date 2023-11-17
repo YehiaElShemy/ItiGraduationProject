@@ -33,10 +33,10 @@ namespace Final_Project.Models.DataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Clinic_patient>()
-            // .HasKey(m => new { m.CinicId, m.PatientId });
-            //modelBuilder.Entity<Doctor_patient>()
-            //.HasKey(m => new { m.DoctorId, m.PatientId });
+            modelBuilder.Entity<Clinic_patient>()
+             .HasKey(m => new { m.CinicId, m.PatientId });
+            modelBuilder.Entity<Doctor_patient>()
+            .HasKey(m => new { m.DoctorId, m.PatientId });
 
             //modelBuilder.Entity<Doctor_patient>()
             //.HasOne(dp => dp.Patient)
