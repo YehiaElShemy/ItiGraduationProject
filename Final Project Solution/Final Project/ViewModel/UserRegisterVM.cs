@@ -12,8 +12,9 @@ namespace Final_Project.ViewModel
         public string? UserName { get; set; }
         [Required]
         [EmailAddress]
-        [Remote("IsEmailAvailable", "Account", ErrorMessage = "The email address is already in use.")]
+        [Remote("IsEmailAvailable", "Account", ErrorMessage = "The email already is  token.")]
         public string Email { get; set; }
+        [RegularExpression(@"^(00201|\\+201|01)[0-2,5]{1}[0-9]{8}$",ErrorMessage ="phone number not valid format")]
         public List<string>? PhoneNumbers { get; set; }
         [Required(ErrorMessage ="Enter Your Age")]
         public int? Age { get; set; }

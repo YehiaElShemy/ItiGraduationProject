@@ -72,9 +72,7 @@ namespace Final_Project.Controllers
         {
             ViewBag.Clinics = GetAllClinics();
             ViewBag.AllRoles = GetAllRoles(); //view bag to retrun all Role 
-            bool emailExists = await userManager.Users.AnyAsync(u => u.Email == NewUser.Email);
-            if (emailExists == false)
-            {
+          
                 if (ModelState.IsValid)
                 {
                     string imageName = userRepositry.UploadFile(NewUser.Image);
@@ -154,13 +152,9 @@ namespace Final_Project.Controllers
                 {
                     return View(NewUser);
                 }
-            }
+        
 
-            else
-            {
-                ModelState.AddModelError("Email", "Email is already taken");
-                return View(NewUser);
-            }
+           
 
         }
 
