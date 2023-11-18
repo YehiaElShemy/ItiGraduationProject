@@ -135,7 +135,9 @@ namespace Final_Project.Controllers
                     ClinicEdited.Country = ClinicNew.Country;
                     ClinicEdited.City = ClinicNew.City;
                     ClinicEdited.Region = ClinicNew.Region;
-
+                    ClinicEdited.StartDate= ClinicNew.StartDate;
+                    ClinicEdited.EndDate= ClinicNew.EndDate;    
+                    ClinicEdited.PhoneClinic = ClinicNew.PhoneClinic;   
                 }
                 //repostory.Update(ProductEdited);
                 repostory.Save();
