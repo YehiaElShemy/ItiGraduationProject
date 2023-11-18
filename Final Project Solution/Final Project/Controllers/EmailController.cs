@@ -28,7 +28,7 @@ namespace Final_Project.Controllers
 
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress("A.Zakarya19.870@gmail.com"),
+                    From = new MailAddress("A.Zakarya19.870@gmail.com"),//base Email
                     Subject = subject,
                     Body = body,
                     IsBodyHtml = true,

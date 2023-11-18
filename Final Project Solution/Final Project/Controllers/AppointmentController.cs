@@ -1,9 +1,11 @@
 ﻿using Final_Project.Models.DataContext;
 using Final_Project.Models.DomainModels;
+using Final_Project.Repositary;
 using Final_Project.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 namespace Final_Project.Controllers
 {
@@ -11,11 +13,13 @@ namespace Final_Project.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly DataContext db;
+        private readonly UserRepositry userRepositry;
 
-        public AppointmentController(UserManager<ApplicationUser> userManager, DataContext _db)
+        public AppointmentController(UserManager<ApplicationUser> userManager, DataContext _db ,UserRepositry _userRepositry)
         {
             this.userManager = userManager;
             db = _db;
+            this.userRepositry = _userRepositry;
         }
         public IActionResult Index()
         {
@@ -49,8 +53,10 @@ namespace Final_Project.Controllers
                 };
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                TempData["success"] = $"Appointment Reserved Successfully in doctor {Doctor.UserName} ";
-
+                string messageBody = newAppoint.DateReserved.ToString("yyyy-MM-dd") +
+                    " in hour " + newAppoint.TimeReserved.ToString("HH:mm");
+                userRepositry.SendMessage(Patient.Email, $"Appointment Reserved Successfully in doctor {Doctor.UserName} ",
+                   messageBody);
                 return RedirectToAction("PatientAppointment", "Appointment");
             }
             else
@@ -146,6 +152,15 @@ namespace Final_Project.Controllers
 
 
 
+        }
+
+
+        public async Task<JsonResult> IsEmailAvailable(string Email)
+        {
+            // Check if the email address is already in use
+            bool emailExists = await userManager.Users.AnyAsync(u => u.Email == Email);
+
+                return Json(emailExists);
         }
     }
 }

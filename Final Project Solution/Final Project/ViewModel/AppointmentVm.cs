@@ -10,10 +10,14 @@ namespace Final_Project.ViewModel
         //public string PatientId { get; set; }
         //public string clinicId { get; set; }
         public string? PatientName { get; set; }
-       // [Required(ErrorMessage ="Enter your Email")]
-        public string? Email { get; set; }
+        // [Required(ErrorMessage ="Enter your Email")]
+
+        [Required]
+        //[EmailAddress]
+       // [Remote("IsEmailAvailable", "Appointment", ErrorMessage = "Email not valid")]
+        public string Email { get; set; }
         public string? PhoneNumber { get; set; }
-        public DateTime? DateReserved { get; set; }
+        public DateTime DateReserved { get; set; }
         [DataType(DataType.Time)]
         public DateTime TimeReserved { get; set; }
         public string? Description { get; set; }
