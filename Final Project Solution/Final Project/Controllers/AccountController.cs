@@ -178,9 +178,9 @@ namespace Final_Project.Controllers
         {
             // Check if the email address is already in use
             bool emailExists = await userManager.Users.AnyAsync(u => u.Email ==Email);
-            if (emailExists == null)
-                return true;
-            return false;
+            if (emailExists == true)
+                return false;
+            return true;
         }
 
         [HttpGet]
