@@ -100,7 +100,7 @@ namespace Final_Project.Controllers
 
             }
 
-            return NotFound();
+            return View(new List<PatientAppointmentsVM>());
         }
 
 

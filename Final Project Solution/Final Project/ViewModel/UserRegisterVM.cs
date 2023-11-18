@@ -12,8 +12,9 @@ namespace Final_Project.ViewModel
         public string? UserName { get; set; }
         [Required]
         [EmailAddress]
-        [Remote("IsEmailAvailable", "Account", ErrorMessage = "The email address is already in use.")]
+        [Remote("IsEmailAvailable", "Account", ErrorMessage = "The email already is  token.")]
         public string Email { get; set; }
+        [RegularExpression(@"^(00201|\\+201|01)[0-2,5]{1}[0-9]{8}$",ErrorMessage ="phone number not valid format")]
         public List<string>? PhoneNumbers { get; set; }
         [Required(ErrorMessage ="Enter Your Age")]
         public int? Age { get; set; }
@@ -23,15 +24,15 @@ namespace Final_Project.ViewModel
         [Required(ErrorMessage ="Image Required" )]
         //[DataType(DataType.Upload)]
         [NotMapped]
-        [RegularExpression(@"^.*\.(jpg|jpeg|png|gif)$", ErrorMessage = "Only jpg, jpeg, png, and gif file types are allowed.")]
+       //[RegularExpression(@"[^\\s]+(.*?)\\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$", ErrorMessage = "Only jpg, jpeg, png, and gif file types are allowed.")]
         public IFormFile Image { get; set; }
         public string? ImageName { get; set; }
-        [Required(ErrorMessage = "Enter Your Country")]
+    
         public string? Country { get; set; }
-        [Required(ErrorMessage = "Enter Your City")]
+     
 
         public string? City { get; set; }
-        [Required(ErrorMessage ="Enter Your Regoin")]
+       
         public string? Region { get; set; }
         public List<string>? SpecialistDoctors { get; set; }
         [DataType(DataType.Password), Required(ErrorMessage = "Enter complex password")]

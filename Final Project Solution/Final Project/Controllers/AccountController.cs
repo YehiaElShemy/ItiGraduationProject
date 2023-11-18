@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Final_Project.ViewModel;
 using Final_Project.Repositary;
+using Microsoft.EntityFrameworkCore;
 
 namespace Final_Project.Controllers
 {
@@ -71,79 +72,90 @@ namespace Final_Project.Controllers
         {
             ViewBag.Clinics = GetAllClinics();
             ViewBag.AllRoles = GetAllRoles(); //view bag to retrun all Role 
-            if (ModelState.IsValid)
-            {
-                string imageName=userRepositry.UploadFile(NewUser.Image);
-                if (NewUser.RoleName == "Patient") { NewUser.ClinicId = null;}
+          
+                if (ModelState.IsValid)
+                {
+                    string imageName = userRepositry.UploadFile(NewUser.Image);
+                    if (NewUser.RoleName == "Patient") { NewUser.ClinicId = null; }
+                    if(NewUser.RoleName=="Doctor"&& NewUser.Region == null && NewUser.City == null)
+                    {
+                        ModelState.AddModelError("", "Region Or City Is Required");
+                        return View(NewUser);
 
-                ApplicationUser user = new ApplicationUser()
-                {
-                    UserName = NewUser.UserName,
-                    Email = NewUser.Email,
-                    Age=NewUser.Age,
-                    Gender = NewUser.Gender,
-                    Country = NewUser.Country,
-                    City=NewUser.City,
-                    Region= NewUser.Region,
-                    ImageName=imageName,
-                    ClinicId=NewUser.ClinicId,
-                };
-                // Create the new User record
-                IdentityResult result = await userManager.CreateAsync(user, NewUser.Password);
-                if (result.Succeeded)
-                {
-                    ApplicationUser UserRegister = await userManager.FindByEmailAsync(user.Email);
-                    // Get the last User ID
-                     string userRegisterId = UserRegister.Id;
-                    foreach (var phone in NewUser.PhoneNumbers)
-                    {
-                        db.PhoneUsers.Add(new PhoneUser()
-                        {
-                            UserId = userRegisterId,
-                            PhoneNumber = phone
-                        }
-                     );
                     }
-                    // Create a new phone User 
-                
-                    if (NewUser.RoleName == "Doctor")
+
+                    ApplicationUser user = new ApplicationUser()
                     {
-                        foreach (var special in NewUser.SpecialistDoctors)
+                        UserName = NewUser.UserName,
+                        Email = NewUser.Email,
+                        Age = NewUser.Age,
+                        Gender = NewUser.Gender,
+                        Country = NewUser.Country,
+                        City = NewUser.City,
+                        Region = NewUser.Region,
+                        ImageName = imageName,
+                        ClinicId = NewUser.ClinicId,
+                    };
+                    // Create the new User record
+                    IdentityResult result = await userManager.CreateAsync(user, NewUser.Password);
+                    if (result.Succeeded)
+                    {
+                        ApplicationUser UserRegister = await userManager.FindByEmailAsync(user.Email);
+                        // Get the last User ID
+                        string userRegisterId = UserRegister.Id;
+                        foreach (var phone in NewUser.PhoneNumbers)
                         {
-                            db.DoctorSpecialists.Add(new DoctorSpecialist
+                            db.PhoneUsers.Add(new PhoneUser()
                             {
-                                DoctorId = userRegisterId,
-                                SpecialName = special
-                            });
+                                UserId = userRegisterId,
+                                PhoneNumber = phone
+                            }
+                         );
+                        }
+                        // Create a new phone User 
+
+                        if (NewUser.RoleName == "Doctor")
+                        {
+                            foreach (var special in NewUser.SpecialistDoctors)
+                            {
+                                db.DoctorSpecialists.Add(new DoctorSpecialist
+                                {
+                                    DoctorId = userRegisterId,
+                                    SpecialName = special
+                                });
+
+                            }
 
                         }
+                        // Save the changes to the database
+                        db.SaveChanges();
 
+                        // Sign in the new  user
+                        await signInManager.SignInAsync(user, false);
+
+                        // Add the new  user to the role
+                        await userManager.AddToRoleAsync(user, NewUser.RoleName);
+
+                        // Redirect to the login page
+                        return RedirectToAction("Login");
                     }
-                    // Save the changes to the database
-                    db.SaveChanges();
-
-                    // Sign in the new  user
-                    await signInManager.SignInAsync(user, false);
-
-                    // Add the new  user to the role
-                    await userManager.AddToRoleAsync(user, NewUser.RoleName);
-
-                    // Redirect to the login page
-                    return RedirectToAction("Login");
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description); //return exeception if not success
+                        }
+                        return View(NewUser);
+                    }
                 }
                 else
                 {
-                    foreach (var item in result.Errors)
-                    {
-                        ModelState.AddModelError("", item.Description); //return exeception if not success
-                    }
                     return View(NewUser);
                 }
-            }
-            else
-            {
-                return View(NewUser);
-            }
+        
+
+           
+
         }
 
         private List<Clinic> GetAllClinics()
@@ -165,8 +177,8 @@ namespace Final_Project.Controllers
         public async Task<bool> IsEmailAvailable(string Email)
         {
             // Check if the email address is already in use
-            var userWithEmail = await userManager.FindByEmailAsync(Email);
-            if(userWithEmail == null)
+            bool emailExists = await userManager.Users.AnyAsync(u => u.Email ==Email);
+            if (emailExists == null)
                 return true;
             return false;
         }
