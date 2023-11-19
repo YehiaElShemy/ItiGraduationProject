@@ -20,7 +20,6 @@ namespace Final_Project.Models.DomainModels
         [ForeignKey(nameof(Patient))]
         public string? PatientId { get; set; }
         [InverseProperty("AppointmentsPatients")]
-
         public virtual ApplicationUser? Patient  { get; set; }
         [ForeignKey(nameof(Doctor))]
         public string? DoctorId { get; set; }

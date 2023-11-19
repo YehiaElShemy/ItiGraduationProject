@@ -20,11 +20,11 @@ namespace Final_Project.Models.DataContext
         public virtual DbSet<Patient> patients { get; set; }
         public virtual DbSet<Clinic> Clinics { get; set; }
         public virtual DbSet<Appointment> Appointments { get; set; }
-        public virtual DbSet<Doctor_patient> Doctor_Patients { get; set; }
+      //  public virtual DbSet<Doctor_patient> Doctor_Patients { get; set; }
         public virtual DbSet<PhoneUser> PhoneUsers { get; set; }
         public virtual DbSet<DoctorSpecialist> DoctorSpecialists { get; set; }
       
-        public virtual DbSet<Clinic_patient> Clinic_Patients { get; set; }
+        //public virtual DbSet<Clinic_patient> Clinic_Patients { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseLazyLoadingProxies();
@@ -33,10 +33,10 @@ namespace Final_Project.Models.DataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Clinic_patient>()
-             .HasKey(m => new { m.CinicId, m.PatientId });
-            modelBuilder.Entity<Doctor_patient>()
-            .HasKey(m => new { m.DoctorId, m.PatientId });
+            //modelBuilder.Entity<Clinic_patient>()
+            // .HasKey(m => new { m.CinicId, m.PatientId });
+            //modelBuilder.Entity<Doctor_patient>()
+            //.HasKey(m => new { m.DoctorId, m.PatientId });
 
             //modelBuilder.Entity<Doctor_patient>()
             //.HasOne(dp => dp.Patient)

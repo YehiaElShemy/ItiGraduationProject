@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Final_Project.Migrations
 {
     /// <inheritdoc />
-    public partial class ALGuhny : Migration
+    public partial class inittttww : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace Final_Project.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -227,58 +227,6 @@ namespace Final_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clinic_Patients",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Clinic_Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date_Messge = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CinicId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clinic_Patients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Clinic_Patients_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Clinic_Patients_Clinics_CinicId",
-                        column: x => x.CinicId,
-                        principalTable: "Clinics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Doctor_Patients",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ExaminationDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date_Examin = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctor_Patients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Doctor_Patients_AspNetUsers_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Doctor_Patients_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DoctorSpecialists",
                 columns: table => new
                 {
@@ -328,9 +276,9 @@ namespace Final_Project.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "eda44472-77d4-44b2-a535-5cfb08943434", "Admin", "ADMIN" },
-                    { "2", "7ec150b7-0e73-423f-9bf3-1bcf591050d5", "Doctor", "DOCTOR" },
-                    { "3", "ca251e73-2b92-4050-9182-78fbaf0d7259", "Patient", "PATIENT" }
+                    { "1", "09f65c19-8ac6-46fc-b69c-78b39ae08809", "Admin", "ADMIN" },
+                    { "2", "16a03a38-06b8-4346-ad8d-601857a721fb", "Doctor", "DOCTOR" },
+                    { "3", "3517d380-8ae4-4404-afd5-7278c2ebbfc3", "Patient", "PATIENT" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -393,26 +341,6 @@ namespace Final_Project.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clinic_Patients_CinicId",
-                table: "Clinic_Patients",
-                column: "CinicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clinic_Patients_PatientId",
-                table: "Clinic_Patients",
-                column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Doctor_Patients_DoctorId",
-                table: "Doctor_Patients",
-                column: "DoctorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Doctor_Patients_PatientId",
-                table: "Doctor_Patients",
-                column: "PatientId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DoctorSpecialists_DoctorId",
                 table: "DoctorSpecialists",
                 column: "DoctorId");
@@ -448,12 +376,6 @@ namespace Final_Project.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "Clinic_Patients");
-
-            migrationBuilder.DropTable(
-                name: "Doctor_Patients");
 
             migrationBuilder.DropTable(
                 name: "DoctorSpecialists");

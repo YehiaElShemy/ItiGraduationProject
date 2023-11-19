@@ -11,8 +11,8 @@ namespace Final_Project.Models.DomainModels
       
        
         public virtual List<PhoneUser>? PhoneDoctors { get; set; }
-        public virtual List<Appointment>? Appointments { get; set; }
-        public virtual List<Doctor_patient>? Doctor_Patients { get; set; }
+       // public virtual List<Appointment>? Appointments { get; set; }
+       // public virtual List<Doctor_patient>? Doctor_Patients { get; set; }
       
     }
 }

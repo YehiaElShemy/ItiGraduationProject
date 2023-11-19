@@ -17,9 +17,9 @@ namespace Final_Project.Models.DomainModels
         //public string? Gender { get; set; }
         //public int? Age { get; set; }
         //public ICollection<PatientExamination>? PatientHistroy { get; set; }
-        public virtual ICollection<Clinic_patient>? Clinic_Patients { get; set; }
-        public virtual ICollection<Appointment>? Appointments { get; set; }
-        public virtual ICollection<Doctor_patient>? Doctor_Patients { get; set; }
+     //   public virtual ICollection<Clinic_patient>? Clinic_Patients { get; set; }
+     //   public virtual ICollection<Appointment>? Appointments { get; set; }
+      //  public virtual ICollection<Doctor_patient>? Doctor_Patients { get; set; }
 
     }
 }

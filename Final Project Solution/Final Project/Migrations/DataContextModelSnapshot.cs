@@ -141,13 +141,7 @@ namespace Final_Project.Migrations
                     b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DoctorId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PatientName")
@@ -165,11 +159,7 @@ namespace Final_Project.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.HasIndex("DoctorId1");
-
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("PatientId1");
 
                     b.ToTable("Appointments");
                 });
@@ -187,6 +177,7 @@ namespace Final_Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndDate")
@@ -210,33 +201,6 @@ namespace Final_Project.Migrations
                     b.ToTable("Clinics");
                 });
 
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Clinic_patient", b =>
-                {
-                    b.Property<string>("CinicId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Clinic_Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date_Messge")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PatientId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CinicId", "PatientId");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("PatientId1");
-
-                    b.ToTable("Clinic_Patients");
-                });
-
             modelBuilder.Entity("Final_Project.Models.DomainModels.DoctorSpecialist", b =>
                 {
                     b.Property<int>("Id")
@@ -256,37 +220,6 @@ namespace Final_Project.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("DoctorSpecialists");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
-                {
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("Date_Examin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DoctorId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ExaminationDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PatientId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DoctorId", "PatientId");
-
-                    b.HasIndex("DoctorId1");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("PatientId1");
-
-                    b.ToTable("Doctor_Patients");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.PhoneUser", b =>
@@ -346,21 +279,21 @@ namespace Final_Project.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "15ba5d3a-5a04-4477-8303-811db986f2df",
+                            ConcurrencyStamp = "09f65c19-8ac6-46fc-b69c-78b39ae08809",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8c99f931-f256-4e9b-a0c6-9eeead6085df",
+                            ConcurrencyStamp = "16a03a38-06b8-4346-ad8d-601857a721fb",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "619481c2-fef2-44b0-99f2-074ef5074854",
+                            ConcurrencyStamp = "3517d380-8ae4-4404-afd5-7278c2ebbfc3",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         });
@@ -489,7 +422,7 @@ namespace Final_Project.Migrations
             modelBuilder.Entity("Final_Project.Models.DomainModels.ApplicationUser", b =>
                 {
                     b.HasOne("Final_Project.Models.DomainModels.Clinic", "Clinic")
-                        .WithMany("Doctors")
+                        .WithMany()
                         .HasForeignKey("ClinicId");
 
                     b.Navigation("Clinic");
@@ -505,44 +438,13 @@ namespace Final_Project.Migrations
                         .WithMany("AppointmentsDoctors")
                         .HasForeignKey("DoctorId");
 
-                    b.HasOne("Final_Project.Models.DomainModels.Doctor", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("DoctorId1");
-
                     b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Patient")
                         .WithMany("AppointmentsPatients")
                         .HasForeignKey("PatientId");
 
-                    b.HasOne("Final_Project.Models.DomainModels.Patient", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientId1");
-
                     b.Navigation("Clinic");
 
                     b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Clinic_patient", b =>
-                {
-                    b.HasOne("Final_Project.Models.DomainModels.Clinic", "Clinic")
-                        .WithMany("Clinic_Patients")
-                        .HasForeignKey("CinicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Final_Project.Models.DomainModels.Patient", null)
-                        .WithMany("Clinic_Patients")
-                        .HasForeignKey("PatientId1");
-
-                    b.Navigation("Clinic");
 
                     b.Navigation("Patient");
                 });
@@ -554,33 +456,6 @@ namespace Final_Project.Migrations
                         .HasForeignKey("DoctorId");
 
                     b.Navigation("Doctor");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor_patient", b =>
-                {
-                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Final_Project.Models.DomainModels.Doctor", null)
-                        .WithMany("Doctor_Patients")
-                        .HasForeignKey("DoctorId1");
-
-                    b.HasOne("Final_Project.Models.DomainModels.ApplicationUser", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Final_Project.Models.DomainModels.Patient", null)
-                        .WithMany("Doctor_Patients")
-                        .HasForeignKey("PatientId1");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.PhoneUser", b =>
@@ -663,28 +538,11 @@ namespace Final_Project.Migrations
             modelBuilder.Entity("Final_Project.Models.DomainModels.Clinic", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("Clinic_Patients");
-
-                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Final_Project.Models.DomainModels.Doctor", b =>
                 {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("Doctor_Patients");
-
                     b.Navigation("PhoneDoctors");
-                });
-
-            modelBuilder.Entity("Final_Project.Models.DomainModels.Patient", b =>
-                {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("Clinic_Patients");
-
-                    b.Navigation("Doctor_Patients");
                 });
 #pragma warning restore 612, 618
         }
